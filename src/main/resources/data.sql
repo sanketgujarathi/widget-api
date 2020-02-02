@@ -1,0 +1,3 @@
+insert into widget (id, x, y, zindex, height, width, last_modified_date) values (1, 50, 50, 5, 100, 100, '2020-01-26T15:33:21.681Z')
+insert into widget (id, x, y, zindex, height, width, last_modified_date) values (1, 100, 50, 10, 100, 100, '2020-01-26T15:33:07.383Z')
+insert into widget (id, x, y, zindex, height, width, last_modified_date) values (1, 100, 100, 15, 100, 100, '2020-01-26T15:33:13.309Z')

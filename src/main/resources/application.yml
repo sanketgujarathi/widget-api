@@ -1,0 +1,46 @@
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: buckets
+      url: .*
+      rate-limits:
+        - bandwidths:
+            - capacity: 1000
+              time: 60
+              unit: seconds
+    - cache-name: buckets
+      url: /widgets
+      rate-limits:
+        - bandwidths:
+            - capacity: 200
+              time: 60
+              unit: seconds
+spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+  data:
+    web:
+      pageable:
+        default-page-size: 1
+        max-page-size: 500
+        one-indexed-parameters: true
+        page-parameter: page
+        size-parameter: size
+  datasource:
+    driver-class-name: org.h2.Driver
+    password: ''
+    url: jdbc:h2:mem:testdb
+    username: sa
+  h2:
+    console:
+      enabled: true

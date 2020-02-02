@@ -1,0 +1,6 @@
+# generated files
+target/
+
+# Intellij files
+*.iml
+.idea
