@@ -3,8 +3,6 @@ package com.miro.assignment.service;
 import com.miro.assignment.dao.WidgetDao;
 import com.miro.assignment.domain.Widget;
 import com.miro.assignment.domain.WidgetFilterCriteria;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,8 +24,8 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    public Page<Widget> getAllWidgets(Pageable pageable, WidgetFilterCriteria criteria) {
-        return widgetDao.findAll(pageable);
+    public Page<Widget> getAllWidgets(Pageable pageable, Optional<WidgetFilterCriteria> criteria) {
+        return criteria.isPresent() ? widgetDao.findByFilterCriteria(pageable, criteria.get().getX(), criteria.get().getY()) : widgetDao.findAll(pageable);
 
     }
 

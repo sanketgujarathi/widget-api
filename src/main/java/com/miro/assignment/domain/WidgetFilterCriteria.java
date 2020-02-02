@@ -2,31 +2,22 @@ package com.miro.assignment.domain;
 
 public class WidgetFilterCriteria {
 
-    private int lowerLeftX;
-    private int lowerLeftY;
-    private int upperRightX;
-    private int upperRightY;
+    private int x;
+    private int y;
 
-    public WidgetFilterCriteria(int lowerLeftX, int lowerLeftY, int upperRightX, int upperRightY) {
-        this.lowerLeftX = lowerLeftX;
-        this.lowerLeftY = lowerLeftY;
-        this.upperRightX = upperRightX;
-        this.upperRightY = upperRightY;
+    public int getX() {
+        return x;
     }
 
-    public int getLowerLeftX() {
-        return lowerLeftX;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public int getLowerLeftY() {
-        return lowerLeftY;
+    public int getY() {
+        return y;
     }
 
-    public int getUpperRightX() {
-        return upperRightX;
-    }
-
-    public int getUpperRightY() {
-        return upperRightY;
+    public void setY(int y) {
+        this.y = y;
     }
 }

@@ -54,8 +54,8 @@ public class WidgetController {
     @GetMapping("/widgets")
     public ResponseEntity<PagedModel<EntityModel<Widget>>> getAllWidgets(@PageableDefault(page = 1, size = 10)
                                                                          @SortDefault.SortDefaults({
-                                                                                 @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable, PagedResourcesAssembler<Widget> assembler, @RequestBody(required = false) WidgetFilterCriteria criteria) {
-        Page<Widget> page = widgetService.getAllWidgets(pageable, criteria);
+                                                                                 @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable, PagedResourcesAssembler<Widget> assembler,  WidgetFilterCriteria criteria) {
+        Page<Widget> page = widgetService.getAllWidgets(pageable, Optional.of(criteria));
         return ResponseEntity.ok(assembler.toModel(page, resourceAssembler));
     }
 

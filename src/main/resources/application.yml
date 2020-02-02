@@ -19,15 +19,6 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
   data:
     web:
       pageable:
@@ -44,3 +35,12 @@ logging:
   h2:
     console:
       enabled: true
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

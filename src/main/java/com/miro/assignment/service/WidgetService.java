@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface WidgetService {
 
     Widget createWidget(Widget widget);
-    Page<Widget> getAllWidgets(Pageable pageable, WidgetFilterCriteria criteria);
+    Page<Widget> getAllWidgets(Pageable pageable, Optional<WidgetFilterCriteria> criteria);
     Optional<Widget> getWidget(int id);
     Optional<Widget> updateWidget(int id, Widget widget);
     void deleteWidget(int id);
