@@ -1,12 +1,12 @@
 package com.miro.assignment.domain;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 //@Table(name = "phone_settings", catalog = "dialer")
@@ -20,19 +20,8 @@ public class Widget {
     private int width;
     private int height;
     private int zindex;
-    private String lastModifiedDate;
-
-    public Widget() {
-        this.lastModifiedDate = ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT );
-    }
-
-    /*public Widget(int x, int y, int width, int height, int zindex) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.zindex = zindex;
-    }*/
+    @UpdateTimestamp
+    private ZonedDateTime lastModifiedDate;
 
     public int getId() {
         return id;
@@ -82,11 +71,11 @@ public class Widget {
         this.zindex = zindex;
     }
 
-    public String getLastModifiedDate() {
+    public ZonedDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(String lastModifiedDate) {
+    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 }

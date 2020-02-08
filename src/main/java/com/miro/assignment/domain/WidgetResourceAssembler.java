@@ -10,12 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.util.Optional.empty;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
@@ -34,7 +32,7 @@ public class WidgetResourceAssembler implements RepresentationModelAssembler<Wid
     private List<Link> getSingleItemLinks(int id) {
 
         return Arrays.asList(linkTo(methodOn(WidgetController.class).getWidget(id)).withSelfRel(),
-                linkTo(methodOn(WidgetController.class).updateWidget(id, new Widget())).withRel("update"),
+                linkTo(methodOn(WidgetController.class).updateWidget(id, new WidgetRequest())).withRel("update"),
                 linkTo(methodOn(WidgetController.class).deleteWidget(id)).withRel("delete"),
                 linkTo(methodOn(WidgetController.class).getAllWidgets(PageRequest.of(1, 5), null, new WidgetFilterCriteria())).withRel("widgets"));
     }
