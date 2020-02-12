@@ -7,6 +7,8 @@ import com.miro.assignment.domain.WidgetRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.Optional;
@@ -32,13 +34,15 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Optional<Widget> getWidget(BigInteger id) {
         return widgetDao.findById(id);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Optional<Widget> updateWidget(BigInteger id, WidgetRequest widgetRequest) {
-        Optional<Widget> existingWidget = widgetDao.findById(id);
+        Optional<Widget> existingWidget = getWidget(id);
         return existingWidget.map(value -> widgetDao.save(mapToWidget(widgetRequest, value)));
     }
 
