@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @RestController
@@ -42,8 +43,20 @@ public class WidgetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resourceAssembler.toModel(response));
     }
 
+    @GetMapping("/widgets")
+    public ResponseEntity<PagedModel<EntityModel<Widget>>> getAllWidgets(@PageableDefault(page = 1, size = 10)
+                                                                         @SortDefault.SortDefaults({
+                                                                                 @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable
+            , PagedResourcesAssembler<Widget> assembler
+            , WidgetFilterCriteria criteria) {
+        log.info("Received request to get widgets for page: {}", pageable.getPageNumber());
+        Page<Widget> page = widgetService.getAllWidgets(pageable, Optional.of(criteria));
+        log.info("Retrieved {} widgets for page: {}", page.getNumberOfElements(), pageable.getPageNumber());
+        return ResponseEntity.ok(assembler.toModel(page, resourceAssembler));
+    }
+
     @GetMapping("/widget/{id}")
-    public ResponseEntity<EntityModel<Widget>> getWidget(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Widget>> getWidget(@PathVariable BigInteger id) {
         log.info("Received request to get widget details for id: {}", id);
         Optional<Widget> foundWidget = widgetService.getWidget(id);
         return foundWidget
@@ -53,20 +66,8 @@ public class WidgetController {
                         .build());
     }
 
-    @GetMapping("/widgets")
-    public ResponseEntity<PagedModel<EntityModel<Widget>>> getAllWidgets(@PageableDefault(page = 1, size = 10)
-                                                                         @SortDefault.SortDefaults({
-                                                                         @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable
-                                                                            , PagedResourcesAssembler<Widget> assembler
-                                                                            , WidgetFilterCriteria criteria) {
-        log.info("Received request to get widgets for page: {}", pageable.getPageNumber());
-        Page<Widget> page = widgetService.getAllWidgets(pageable, Optional.of(criteria));
-        log.info("Retrieved {} widgets for page: {}", page.getNumberOfElements(), pageable.getPageNumber());
-        return ResponseEntity.ok(assembler.toModel(page, resourceAssembler));
-    }
-
     @PatchMapping("/widget/{id}")
-    public ResponseEntity<EntityModel<Widget>> updateWidget(@PathVariable("id") int id, @RequestBody WidgetRequest widgetRequest) {
+    public ResponseEntity<EntityModel<Widget>> updateWidget(@PathVariable("id") BigInteger id, @RequestBody WidgetRequest widgetRequest) {
         log.info("Received request to update widget details for id: {}", id);
         Optional<Widget> updateWidget = widgetService.updateWidget(id, widgetRequest);
         return updateWidget
@@ -77,7 +78,7 @@ public class WidgetController {
     }
 
     @DeleteMapping("/widget/{id}")
-    public ResponseEntity deleteWidget(@PathVariable int id) {
+    public ResponseEntity deleteWidget(@PathVariable BigInteger id) {
         log.info("Received request to delete widget for id: {}", id);
         widgetService.deleteWidget(id);
         return ResponseEntity.noContent().build();

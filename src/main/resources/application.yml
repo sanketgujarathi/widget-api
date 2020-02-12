@@ -15,7 +15,9 @@ bucket4j:
             - capacity: 200
               time: 60
               unit: seconds
+---
 spring:
+  profiles: sql
   cache:
     jcache:
       config: classpath:ehcache.xml
@@ -35,6 +37,11 @@ spring:
   h2:
     console:
       enabled: true
+  autoconfigure:
+    exclude: >
+      org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,
+      org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,
+      org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration
 logging:
   level:
     org:
@@ -44,3 +51,26 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+---
+spring:
+  profiles: nosql
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+  data:
+    mongodb:
+      user: test
+      password:
+      uri: mongodb://localhost:51531/db
+    web:
+      pageable:
+        default-page-size: 1
+        max-page-size: 500
+        one-indexed-parameters: true
+        page-parameter: page
+        size-parameter: size
+  autoconfigure:
+    exclude: >
+      org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+      org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
+      org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Service
@@ -31,18 +32,18 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    public Optional<Widget> getWidget(int id) {
+    public Optional<Widget> getWidget(BigInteger id) {
         return widgetDao.findById(id);
     }
 
     @Override
-    public Optional<Widget> updateWidget(int id, WidgetRequest widgetRequest) {
+    public Optional<Widget> updateWidget(BigInteger id, WidgetRequest widgetRequest) {
         Optional<Widget> existingWidget = widgetDao.findById(id);
         return existingWidget.map(value -> widgetDao.save(mapToWidget(widgetRequest, value)));
     }
 
     @Override
-    public void deleteWidget(int id) {
+    public void deleteWidget(BigInteger id) {
          widgetDao.deleteById(id);
     }
 

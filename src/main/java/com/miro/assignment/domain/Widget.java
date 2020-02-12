@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigInteger;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -14,7 +15,7 @@ public class Widget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private BigInteger id;
     private int x;
     private int y;
     private int width;
@@ -23,11 +24,11 @@ public class Widget {
     @UpdateTimestamp
     private ZonedDateTime lastModifiedDate;
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

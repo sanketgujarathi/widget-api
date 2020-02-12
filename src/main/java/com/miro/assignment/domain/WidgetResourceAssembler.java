@@ -8,6 +8,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class WidgetResourceAssembler implements RepresentationModelAssembler<Wid
         return new CollectionModel<>(StreamSupport.stream(entities.spliterator(), false).map(this::toModel).collect(Collectors.toList()));
     }
 
-    private List<Link> getSingleItemLinks(int id) {
+    private List<Link> getSingleItemLinks(BigInteger id) {
 
         return Arrays.asList(linkTo(methodOn(WidgetController.class).getWidget(id)).withSelfRel(),
                 linkTo(methodOn(WidgetController.class).updateWidget(id, new WidgetRequest())).withRel("update"),
