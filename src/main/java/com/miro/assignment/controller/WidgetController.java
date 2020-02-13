@@ -40,7 +40,8 @@ public class WidgetController {
         log.info("Received request to create widget at {}, {}", widget.getX(), widget.getY());
         Widget response = widgetService.createWidget(widget);
         log.info("Created new widget with id: {}", response.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(resourceAssembler.toModel(response));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(resourceAssembler.toModel(response));
     }
 
     @GetMapping("/widgets")
@@ -81,7 +82,8 @@ public class WidgetController {
     public ResponseEntity deleteWidget(@PathVariable BigInteger id) {
         log.info("Received request to delete widget for id: {}", id);
         widgetService.deleteWidget(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+                .build();
     }
 
 }

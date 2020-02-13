@@ -1,9 +1,10 @@
 package com.miro.assignment.service;
 
-import com.miro.assignment.dao.WidgetDao;
+import com.miro.assignment.dao.WidgetJpaDao;
 import com.miro.assignment.domain.Widget;
 import com.miro.assignment.domain.WidgetFilterCriteria;
 import com.miro.assignment.domain.WidgetRequest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,12 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Service
-public class WidgetServiceImpl implements WidgetService {
+@Profile("sql")
+public class WidgetServiceJpaImpl implements WidgetService {
 
-    private final WidgetDao widgetDao;
+    private final WidgetJpaDao widgetDao;
 
-    public WidgetServiceImpl(WidgetDao widgetDao) {
+    public WidgetServiceJpaImpl(WidgetJpaDao widgetDao) {
         this.widgetDao = widgetDao;
     }
 
@@ -29,7 +31,9 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     public Page<Widget> getAllWidgets(Pageable pageable, Optional<WidgetFilterCriteria> criteria) {
-        return criteria.isPresent() ? widgetDao.findByFilterCriteria(pageable, criteria.get().getX(), criteria.get().getY()) : widgetDao.findAll(pageable);
+        return criteria.isPresent() ? widgetDao.findByFilterCriteria(pageable, criteria.get()
+                .getX(), criteria.get()
+                .getY()) : widgetDao.findAll(pageable);
 
     }
 
@@ -48,23 +52,21 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     public void deleteWidget(BigInteger id) {
-         widgetDao.deleteById(id);
+        widgetDao.deleteById(id);
     }
 
     private Widget mapToWidget(WidgetRequest widgetRequest) {
-        Widget widget = new Widget();
-        mapToWidget(widgetRequest, new Widget());
-        return widget;
+        return mapToWidget(widgetRequest, new Widget());
     }
 
-    private Widget mapToWidget(WidgetRequest source, Widget destination){//TODO names
+    private Widget mapToWidget(WidgetRequest source, Widget destination) {
         destination.setX(source.getX());
         destination.setY(source.getY());
         destination.setHeight(source.getHeight());
         destination.setWidth(source.getWidth());
         destination.setZindex(source.getZindex());
         destination.setZindex(source.getZindex());
-        return  destination;
+        return destination;
 
     }
 }

@@ -21,13 +21,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class WidgetResourceAssembler implements RepresentationModelAssembler<Widget, EntityModel<Widget>> {
     @Override
     public EntityModel<Widget> toModel(Widget entity) {
-        return  new EntityModel<>(entity, getSingleItemLinks(entity.getId()));
+        return new EntityModel<>(entity, getSingleItemLinks(entity.getId()));
 
     }
 
     @Override
     public CollectionModel<EntityModel<Widget>> toCollectionModel(Iterable<? extends Widget> entities) {
-        return new CollectionModel<>(StreamSupport.stream(entities.spliterator(), false).map(this::toModel).collect(Collectors.toList()));
+        return new CollectionModel<>(StreamSupport.stream(entities.spliterator(), false)
+                .map(this::toModel)
+                .collect(Collectors.toList()));
     }
 
     private List<Link> getSingleItemLinks(BigInteger id) {
