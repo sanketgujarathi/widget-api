@@ -1,3 +1,15 @@
+spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+  data:
+    web:
+      pageable:
+        default-page-size: 1
+        max-page-size: 500
+        one-indexed-parameters: true
+        page-parameter: page
+        size-parameter: size
 bucket4j:
   enabled: true
   filters:
@@ -17,18 +29,6 @@ bucket4j:
               unit: seconds
 ---
 spring:
-  profiles: sql
-  cache:
-    jcache:
-      config: classpath:ehcache.xml
-  data:
-    web:
-      pageable:
-        default-page-size: 1
-        max-page-size: 500
-        one-indexed-parameters: true
-        page-parameter: page
-        size-parameter: size
   datasource:
     driver-class-name: org.h2.Driver
     password: ''
@@ -55,21 +55,11 @@ logging:
 ---
 spring:
   profiles: nosql
-  cache:
-    jcache:
-      config: classpath:ehcache.xml
   data:
     mongodb:
       user: test
       password:
       uri: mongodb://localhost:51531/db
-    web:
-      pageable:
-        default-page-size: 1
-        max-page-size: 500
-        one-indexed-parameters: true
-        page-parameter: page
-        size-parameter: size
   autoconfigure:
     exclude: >
       org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
