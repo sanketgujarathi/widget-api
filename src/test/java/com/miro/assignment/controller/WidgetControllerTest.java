@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class WidgetControllerTest {
 
-    private static final String WIDGET_OUTPUT = "{" +
+    private final String WIDGET_OUTPUT = "{" +
             "'id': 123," +
             "'x': 50," +
             "'y': 50," +
