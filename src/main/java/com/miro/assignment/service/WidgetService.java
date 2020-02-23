@@ -13,7 +13,7 @@ public interface WidgetService {
 
     Widget createWidget(WidgetRequest widget);
 
-    Page<Widget> getAllWidgets(Pageable pageable, Optional<WidgetFilterCriteria> criteria);
+    Page<Widget> getWidgetsByFilterCriteria(Pageable pageable, WidgetFilterCriteria criteria);
 
     Optional<Widget> getWidget(BigInteger id);
 

@@ -14,7 +14,7 @@ import java.math.BigInteger;
 @Profile("sql")
 public interface WidgetJpaDao extends PagingAndSortingRepository<Widget, BigInteger> {
 
-    @Query(value = "select w from Widget w where (w.x - w.width/2) >= 0 and (w.x + w.width/2) <= :upperX and (w.y - w.height/2) >= 0 and (w.y + w.height/2) <= :upperY")
-    Page<Widget> findByFilterCriteria(Pageable pageable, int upperX, int upperY);
+    @Query(value = "select w from Widget w where (w.x - TRUNC(w.width/2)) >= :lowerX and (w.x + TRUNC(w.width/2)) <= :upperX and (w.y - TRUNC(w.height/2)) >= :lowerY and (w.y + TRUNC(w.height/2)) <= :upperY")
+    Page<Widget> findByFilterCriteria(Pageable pageable, int lowerX, int lowerY, int upperX, int upperY);
 
 }

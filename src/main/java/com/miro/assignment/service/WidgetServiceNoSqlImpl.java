@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Profile("nosql")
-public class WidgetServiceNoSqlImpl implements WidgetService {
+public class WidgetServiceNoSqlImpl extends AbstractWidgetService implements WidgetService {
 
     private final WidgetNoSqlDao widgetDao;
 
@@ -30,11 +30,9 @@ public class WidgetServiceNoSqlImpl implements WidgetService {
     }
 
     @Override
-    public Page<Widget> getAllWidgets(Pageable pageable, Optional<WidgetFilterCriteria> criteria) {
-        return criteria.isPresent() ? widgetDao.findByFilterCriteria(pageable, criteria.get()
-                .getX(), criteria.get()
-                .getY()) : widgetDao.findAll(pageable);
-
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Page<Widget> getWidgetsByFilterCriteria(Pageable pageable, WidgetFilterCriteria criteria) {
+        return widgetDao.findByFilterCriteria(pageable, criteria.getLowerX(), criteria.getLowerY(), criteria.getUpperX(), criteria.getUpperY());
     }
 
     @Override
@@ -55,18 +53,4 @@ public class WidgetServiceNoSqlImpl implements WidgetService {
         widgetDao.deleteById(id);
     }
 
-    private Widget mapToWidget(WidgetRequest widgetRequest) {
-        return mapToWidget(widgetRequest, new Widget());
-    }
-
-    private Widget mapToWidget(WidgetRequest source, Widget destination) {//TODO names
-        destination.setX(source.getX());
-        destination.setY(source.getY());
-        destination.setHeight(source.getHeight());
-        destination.setWidth(source.getWidth());
-        destination.setZindex(source.getZindex());
-        destination.setZindex(source.getZindex());
-        return destination;
-
-    }
 }

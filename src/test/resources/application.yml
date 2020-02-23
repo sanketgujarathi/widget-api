@@ -10,6 +10,12 @@ spring:
         one-indexed-parameters: true
         page-parameter: page
         size-parameter: size
+  autoconfigure:
+    exclude: >
+      org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,
+      org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration,
+      org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,
+      org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration
 
 bucket4j:
   enabled: true
@@ -43,16 +49,10 @@ spring:
     password: ''
     url: jdbc:h2:mem:testdb
     username: sa
-    initialization-mode: embedded
+    initialization-mode: never
   h2:
     console:
       enabled: true
-  autoconfigure:
-    exclude: >
-      org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration,
-      org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration,
-      org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration,
-      org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration
 logging:
   level:
     org:
@@ -62,16 +62,3 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
----
-spring:
-  profiles: nosql
-  data:
-    mongodb:
-      user: test
-      password:
-      uri: mongodb://localhost:51531/db
-  autoconfigure:
-    exclude: >
-      org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
-      org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration,
-      org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration

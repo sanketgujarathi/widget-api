@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.data.web.SortDefault;
 import org.springframework.hateoas.EntityModel;
@@ -20,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.Optional;
 
@@ -35,8 +35,8 @@ public class WidgetController {
         this.resourceAssembler = resourceAssembler;
     }
 
-    @PostMapping("/widgets")
-    public ResponseEntity<EntityModel<Widget>> createWidget(@RequestBody WidgetRequest widget) {
+    @PostMapping("/widget")
+    public ResponseEntity<EntityModel<Widget>> createWidget(@RequestBody @Valid WidgetRequest widget) {
         log.info("Received request to create widget at {}, {}", widget.getX(), widget.getY());
         Widget response = widgetService.createWidget(widget);
         log.info("Created new widget with id: {}", response.getId());
@@ -45,13 +45,12 @@ public class WidgetController {
     }
 
     @GetMapping("/widgets")
-    public ResponseEntity<PagedModel<EntityModel<Widget>>> getAllWidgets(@PageableDefault(page = 1, size = 10)
-                                                                         @SortDefault.SortDefaults({
-                                                                                 @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable
+    public ResponseEntity<PagedModel<EntityModel<Widget>>> getAllWidgets(@SortDefault.SortDefaults({
+            @SortDefault(sort = "zindex", direction = Sort.Direction.ASC)}) Pageable pageable
             , PagedResourcesAssembler<Widget> assembler
             , WidgetFilterCriteria criteria) {
-        log.info("Received request to get widgets for page: {}", pageable.getPageNumber());
-        Page<Widget> page = widgetService.getAllWidgets(pageable, Optional.of(criteria));
+        log.info("Received request to get widgets for page: {}", pageable.getPageNumber() + pageable.getOffset());
+        Page<Widget> page = widgetService.getWidgetsByFilterCriteria(pageable, criteria);
         log.info("Retrieved {} widgets for page: {}", page.getNumberOfElements(), pageable.getPageNumber());
         return ResponseEntity.ok(assembler.toModel(page, resourceAssembler));
     }

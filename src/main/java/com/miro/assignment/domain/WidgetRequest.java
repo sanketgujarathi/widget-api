@@ -1,12 +1,17 @@
 package com.miro.assignment.domain;
 
+import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
+
 public class WidgetRequest {
 
     private int x;
     private int y;
-    private int width;
-    private int height;
-    private int zindex;
+    @Positive
+    private BigDecimal width;
+    @Positive
+    private BigDecimal height;
+    private int zindex = Integer.MAX_VALUE;
 
     public int getX() {
         return x;
@@ -24,19 +29,19 @@ public class WidgetRequest {
         this.y = y;
     }
 
-    public int getWidth() {
+    public BigDecimal getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(BigDecimal width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public BigDecimal getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(BigDecimal height) {
         this.height = height;
     }
 

@@ -1,16 +1,16 @@
 package com.miro.assignment.domain;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+
+import static java.lang.Integer.MAX_VALUE;
 
 @Entity
-//@Table(name = "phone_settings", catalog = "dialer")
 public class Widget {
 
     @Id
@@ -18,11 +18,14 @@ public class Widget {
     private BigInteger id;
     private int x;
     private int y;
-    private int width;
-    private int height;
+    private BigDecimal width;
+    private BigDecimal height;
     private int zindex;
-    @UpdateTimestamp
-    private ZonedDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
+
+    public Widget() {
+        this.zindex = MAX_VALUE;
+    }
 
     public BigInteger getId() {
         return id;
@@ -48,19 +51,19 @@ public class Widget {
         this.y = y;
     }
 
-    public int getWidth() {
+    public BigDecimal getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(BigDecimal width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public BigDecimal getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(BigDecimal height) {
         this.height = height;
     }
 
@@ -72,11 +75,12 @@ public class Widget {
         this.zindex = zindex;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
 }

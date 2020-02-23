@@ -14,6 +14,6 @@ import java.math.BigInteger;
 @Profile("nosql")
 public interface WidgetNoSqlDao extends MongoRepository<Widget, BigInteger> {
 
-    @Query(value = "{$where: 'this.x - this.width/2 >= 0 && this.x + this.width/2 <= ?0 && this.y - this.height/2 >= 0 && this.y + this.height/2 <= ?1'}")
-    Page<Widget> findByFilterCriteria(Pageable pageable, int upperX, int upperY);
+    @Query(value = "{$where: 'this.x - this.width/2 >= ?0 && this.x + this.width/2 <= ?2 && this.y - this.height/2 >= ?1 && this.y + this.height/2 <= ?3'}")
+    Page<Widget> findByFilterCriteria(Pageable pageable, int lowerX, int lowerY, int upperX, int upperY);
 }
