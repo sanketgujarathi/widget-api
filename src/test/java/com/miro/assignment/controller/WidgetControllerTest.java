@@ -31,7 +31,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class WidgetControllerTest {
 
-    private static final String WIDGET_OUTPUT = "{'id':123,'x':50,'y':50,'width':100,'height':100,'zindex':10,'lastModifiedDate':'2020-02-17T23:49:27.055','_links':{'self':{'href':'http://localhost/widget/123'},'update':{'href':'http://localhost/widget/123'},'delete':{'href':'http://localhost/widget/123'},'widgets':{'href':'http://localhost/widgets'}}}";
+    private static final String WIDGET_OUTPUT = "{" +
+            "'id': 123," +
+            "'x': 50," +
+            "'y': 50," +
+            "'width': 100," +
+            "'height': 100," +
+            "'zindex': 10," +
+            "'lastModifiedDate': '2020-02-17T23:49:27.055'," +
+            "'_links': {" +
+            "  'self': {" +
+            "    'href': 'http://localhost/widget/123'" +
+            "  }," +
+            "  'update': {" +
+            "    'href': 'http://localhost/widget/123'" +
+            "  }," +
+            "  'delete': {" +
+            "    'href': 'http://localhost/widget/123'" +
+            "  }," +
+            "  'widgets': {" +
+            "    'href': 'http://localhost/widgets'" +
+            "  }" +
+            "}" +
+            "}";
     @Autowired
     WidgetResourceAssembler widgetResourceAssembler;
     @Autowired
