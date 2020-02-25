@@ -85,7 +85,7 @@ http://localhost:8081/actuator/info
 http://localhost:8081/actuator/metrics
 http://localhost:8081/actuator/logfile
 ```
-### To view Swagger 2 API docs
+### To view Swagger 3 API docs
 Run the server and browse to 
 ```
 localhost:8080/swagger-ui.html
