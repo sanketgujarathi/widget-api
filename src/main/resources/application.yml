@@ -32,9 +32,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,refresh,env
+        include: health,refresh,env,metrics,logfile,info
   server:
     port: 8081
+logging:
+  file:
+    name: ./logs/widget-api.log
+info:
+  app:
+    name: Widget Api
+    description: Solution for technical assignment by Sanket Gujarathi
 ---
 spring:
   profiles: sql

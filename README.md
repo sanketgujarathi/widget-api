@@ -6,66 +6,88 @@ A working Spring Boot + Spring Data application implementing a hypermedia API
 ### Running the Spring Boot app
 Navigate to the directory into which you cloned the repo and execute this:
 ```
-$ mvn spring-boot:run
+$ mvn spring-boot:run -Dspring-boot.run.profiles=(sql/nosql)
 ```
-  
+You may run the application with an embedded H2 database by selecting the the profile `sql`  or alternatively use a embedded Mongo db by selecting the profile `nosql` running in server mode on the same machine  
+
 Once started you can access the APIs on port 8080, e.g.
 ```
 $ curl http://localhost:8080/widgets
 ``` 
-  
-The port number can be changed by editing the port property in `src/main/resources/application.yml`  or setting the `server.port` property, e.g. `server.port=80`
-
-  
-### Load sample data
-
-By default, the application database starts empty. 
-To load sample data on start, launch the application with `-Dloadsampledata=true` 
-```
-$ mvn spring-boot:run -Dloadsampledata=true
-```
-
-### Run with external H2 database
-
-You may run the application using an external H2 running in server mode on the same machine
-
-- Download and install (unzip) H2 http://www.h2database.com/html/download.html
-- Start H2 in server mode (replace `<h2-dir>` with H2 installation directory, and `<data-dir>` with your preferred data directory (enabling H2 web console is not required)
-```
-$ java -cp <h2-dir>/bin/h2*.jar org.h2.tools.Server -web -webPort 8081 -tcp -tcpAllowOthers -tcpPort 1521 -baseDir <data-dir>
-```
-- Start the application with `-Dexternaldb=true`
-```
-$ mvn spring-boot:run -Dexternaldb=true -Dloadsampledata=true
-```
 
 ### Running the executable JAR
 
 `mvn package` creates an executable jar that may be launched directly
 
 ```
-$ java -Dloadsampledata=true -jar target/spring-hateoas-sample-0.0.1-SNAPSHOT.jar
+$ java -jar -Dspring.profiles.active=(sql/nosql) target/widget-api-1.0-SNAPSHOT.jar
+```
+
+## REST APIs Endpoints
+### Create a Widget resource
+```
+POST /widget
+Accept: application/json
+Content-Type: application/json
+
+{
+  "x": 50,
+  "y": 50,
+  "width": 100,
+  "height": 100,
+  "zindex": 10
+}
+```
+
+### Find a Widget Resource
+```
+Get /widget/{widgetId}
+Accept: application/json
+Content-Type: application/json
+```
+
+### Update a Widget resource
+```
+PATCH /widget/{widgetId}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "x": 50,
+  "y": 50,
+  "width": 100,
+  "height": 100,
+  "zindex": 20
+}
+```
+
+### Delete a Widget Resource
+```
+DELETE /widget/{widgetId}
+Accept: application/json
+Content-Type: application/json
 ```
 
 
-## License
+### Retrieve a list of Widgets
+```
+Get /widgets?page=1&size=10&lowerX=0&lowerY=0&upperX=100&upperY=150
+Accept: application/json
+Content-Type: application/json
+```
 
-Copyright (c) 2015 Open Credo Ltd, Licensed under MIT License 
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+### Refresh application config or get information about system health, configurations, etc.
+```
+http://localhost:8081/actuator/refresh
+http://localhost:8081/actuator/health
+http://localhost:8081/actuator/env
+http://localhost:8081/actuator/info
+http://localhost:8081/actuator/metrics
+http://localhost:8081/actuator/logfile
+```
+### To view Swagger 2 API docs
+Run the server and browse to 
+```
+localhost:8080/swagger-ui.html
+```
+![Swagger UI](img/swagger.jpg "Swagger UI")
