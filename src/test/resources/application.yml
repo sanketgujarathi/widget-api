@@ -62,3 +62,23 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+---
+spring:
+  profiles: ratelimit
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: buckets
+      url: .*
+      rate-limits:
+        - bandwidths:
+            - capacity: 1
+              time: 60
+              unit: seconds
+    - cache-name: buckets
+      url: /widgets
+      rate-limits:
+        - bandwidths:
+            - capacity: 1
+              time: 60
+              unit: seconds

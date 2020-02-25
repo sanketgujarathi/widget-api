@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("sql")
-class WidgetControllerIT {
+class WidgetControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,7 +35,7 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testCreateWidget() throws Exception {
+    void testCreateWidget_HappyPath() throws Exception {
         this.mockMvc.perform(post("/widget")
                 .content("{\"x\":50,\"y\":50,\"width\":100,\"height\":100,\"zindex\":10}")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -47,7 +47,7 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testGetWidget() throws Exception {
+    void testGetWidget_HappyPath() throws Exception {
         Widget save = widgetJpaDao.save(getWidget());
         this.mockMvc.perform(get("/widget/" + save.getId()))
                 .andDo(print())
@@ -59,7 +59,16 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testGetAllWidgetsFilterCriteria() throws Exception {
+    void testGetWidget_NotFound() throws Exception {
+        Widget save = widgetJpaDao.save(getWidget());
+        this.mockMvc.perform(get("/widget/" + save.getId() + 1))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    void testGetAllWidgetsFilterCriteria_HappyPath() throws Exception {
         widgetJpaDao.save(getWidget(50, 50, 10));
         widgetJpaDao.save(getWidget(100, 100, 30));
 
@@ -72,7 +81,20 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testGetAllWidgetsPagination() throws Exception {
+    void testGetAllWidgetsFilterCriteria_NoMatch() throws Exception {
+        widgetJpaDao.save(getWidget(50, 50, 10));
+        widgetJpaDao.save(getWidget(100, 100, 30));
+
+        this.mockMvc.perform(get("/widgets?lowerX=100&lowerY=100&upperX=150&upperY=150"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .json("{'_links':{'self':{'href':'http://localhost/widgets?page=1&size=10&sort=zindex,asc'}},'page':{'size':10,'totalElements':0,'totalPages':0,'number':1}}", false));
+
+    }
+
+    @Test
+    void testGetAllWidgetsPagination_HappyPath() throws Exception {
         widgetJpaDao.save(getWidget(50, 50, 10));
         widgetJpaDao.save(getWidget(50, 100, 20));
         widgetJpaDao.save(getWidget(100, 100, 30));
@@ -97,7 +119,7 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testUpdateWidget() throws Exception {
+    void testUpdateWidget_HappyPath() throws Exception {
         Widget save = widgetJpaDao.save(getWidget());
         this.mockMvc.perform(patch("/widget/" + save.getId()).content("{\"x\":100,\"y\":100,\"width\":150,\"height\":150,\"zindex\":20}")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -109,7 +131,7 @@ class WidgetControllerIT {
     }
 
     @Test
-    void testDeleteWidget() throws Exception {
+    void testDeleteWidget_HappyPath() throws Exception {
         Widget save = widgetJpaDao.save(getWidget());
         this.mockMvc.perform(delete("/widget/" + save.getId()))
                 .andDo(print())
