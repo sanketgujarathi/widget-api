@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("ratelimit")
 @Ignore("Run separately in isolation")
-class WidgetControllerRateLimitintTest {
+class WidgetControllerRateLimitingTest {
 
     @Autowired
     WidgetResourceAssembler widgetResourceAssembler;
