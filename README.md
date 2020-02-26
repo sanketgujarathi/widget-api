@@ -90,4 +90,4 @@ Run the server and browse to
 ```
 localhost:8080/swagger-ui.html
 ```
-![Swagger UI](img/swagger.jpg "Swagger UI")
+![Swagger UI](img/swagger.JPG "Swagger UI")
